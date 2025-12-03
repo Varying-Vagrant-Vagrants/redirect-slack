@@ -11,7 +11,7 @@ form.append('token', process.env.SLACK_USER_TOKEN);
 
 // Send the request
 const resp = await fetch(
-    'https://mattipv4.slack.com/api/users.admin.createSharedInvite',
+    'https://vvv-local.slack.com/api/users.admin.createSharedInvite',
     {
         method: 'POST',
         headers: {
