@@ -2,12 +2,19 @@ import { readFile, writeFile } from 'node:fs/promises';
 
 // See https://github.com/jackellenberger/emojme#finding-a-slack-token for SLACK_USER_TOKEN + SLACK_USER_COOKIE
 
+const token = process.env.SLACK_USER_TOKEN;
+const cookie = process.env.SLACK_USER_COOKIE;
+
+if (!token) console.warn('SLACK_USER_TOKEN is missing or empty.');
+if (!cookie) console.warn('SLACK_USER_COOKIE is missing or empty.');
+if (!token || !cookie) process.exit(1);
+
 // Create the form
 const form = new FormData();
 form.append('expiration', '99999');
 form.append('max_signups', '100');
 form.append('set_active', 'true');
-form.append('token', process.env.SLACK_USER_TOKEN);
+form.append('token', token);
 
 // Send the request
 const resp = await fetch(
@@ -15,7 +22,7 @@ const resp = await fetch(
     {
         method: 'POST',
         headers: {
-            Cookie: `d=${encodeURIComponent(process.env.SLACK_USER_COOKIE)}`,
+            Cookie: `d=${encodeURIComponent( cookie )}`,
         },
         body: form,
     },
